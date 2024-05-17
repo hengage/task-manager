@@ -8,7 +8,7 @@ import { CreateUserDTO } from './dto/user,dto';
 export class UsersService {
   constructor(@InjectModel('User') private userModel: Model<IUserDocument>) {}
 
-  async register(creatUserDTO: CreateUserDTO): Promise<IUserDocument> {
+  async register(creatUserDTO: CreateUserDTO): Promise<Partial<IUserDocument>> {
     const userExists = await this.userModel
       .findOne({
         email: creatUserDTO.email,
@@ -20,7 +20,12 @@ export class UsersService {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
 
-    const user = this.userModel.create(creatUserDTO);
-    return user;
+    const user = await this.userModel.create(creatUserDTO);
+    return {
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+    };
   }
 }
