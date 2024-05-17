@@ -6,12 +6,13 @@ import {
 } from '@nestjs/common';
 import { UsersService } from 'src/users';
 import * as bcrypt from 'bcrypt';
+import { LoginDTO } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
   constructor(private usersService: UsersService) {}
 
-  async login(loginDTO: { email: string; password: string }) {
+  async login(loginDTO: LoginDTO) {
     const { email, password } = loginDTO;
 
     const user = await this.usersService.findByEmail(email);
