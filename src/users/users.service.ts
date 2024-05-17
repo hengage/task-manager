@@ -28,4 +28,11 @@ export class UsersService {
       email: user.email,
     };
   }
+
+  async findByEmail(email: string): Promise<Partial<IUserDocument>> {
+    return await this.userModel
+      .findOne({ email })
+      .select('email password')
+      .lean();
+  }
 }
