@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateTaskDto, UpdateTaskDto } from './dto/task.dto';
 import { ITaskDocument, Task } from './schema/task.schema';
 import { Model } from 'mongoose';
@@ -15,19 +15,40 @@ export class TasksService {
     return await task.save();
   }
 
-  findAll() {
-    return `This action returns all tasks`;
+  findAllForUser(userId: string): Promise<ITaskDocument[]> {
+    return this.taskModel
+      .find({ user: userId })
+      .select('-__v -updatedAt')
+      .lean();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} task`;
+  async findOne(id: string) {
+    return await this.taskModel.findById(id);
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
+  async update(id: string, updateTaskDto: UpdateTaskDto) {
+    // const select = Object.keys(updateTaskDto);
+
+    return await this.taskModel
+      .findByIdAndUpdate(id, { $set: updateTaskDto }, { new: true })
+      .select('-__v -createdAt -updatedAt')
+      .exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+  async remove(id: string, userId: string) {
+    /**
+     * Finds taks by user id and task id to make sure a task is only
+     *  deleted by it's owner/creator.
+     */
+    const task = await this.taskModel
+      .findOneAndDelete({ _id: id, user: userId })
+      .exec();
+    console.log({ task });
+
+    if (!task) {
+      throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+    }
+
+    return task;
   }
 }

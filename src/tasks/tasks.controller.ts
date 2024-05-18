@@ -37,23 +37,30 @@ export class TasksController {
     });
   }
 
+  @UseGuards(AuthGuard)
   @Get()
-  async findAll() {
-    return this.tasksService.findAll();
+  async findAllForUser(@Request() req) {
+    return this.tasksService.findAllForUser(req.user._id);
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return this.tasksService.findOne(+id);
+    return this.tasksService.findOne(id);
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.tasksService.update(+id, updateTaskDto);
+    return this.tasksService.update(id, updateTaskDto);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return this.tasksService.remove(+id);
+  async remove(@Param('id') id: string, @Request() req, @Response() res) {
+    await this.tasksService.remove(id, req.user._id);
+    return res.status(HttpStatus.OK).json({
+      message: 'success',
+    });
   }
 }
