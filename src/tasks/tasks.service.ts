@@ -64,10 +64,11 @@ export class TasksService {
   }
 
   async taskOverDue(id: string) {
-    await this.taskModel.findByIdAndUpdate(
-      id,
-      { $set: { status: TaskStatus.OVERDUE } },
-      { new: true },
-    );
+    const task = await this.taskModel.findById(id).select('status');
+    console.log({ task });
+    if (task.status !== TaskStatus.COMPLETED) {
+      task.status = TaskStatus.OVERDUE;
+      await task.save();
+    }
   }
 }
