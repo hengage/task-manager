@@ -3,6 +3,7 @@ import { CreateTaskDto, UpdateTaskDto } from './dto/task.dto';
 import { ITaskDocument, Task } from './schema/task.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { TaskStatus } from 'src/constants';
 
 @Injectable()
 export class TasksService {
@@ -50,5 +51,13 @@ export class TasksService {
     }
 
     return task;
+  }
+
+  async taskOverDue(id: string) {
+    await this.taskModel.findByIdAndUpdate(
+      id,
+      { $set: { status: TaskStatus.OVERDUE } },
+      { new: true },
+    );
   }
 }
