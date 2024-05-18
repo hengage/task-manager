@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Schema as mongooseSchema } from 'mongoose';
+import { TaskPriority, TaskStatus } from 'src/constants';
 
 export type ITaskDocument = Task & Document;
 
@@ -13,12 +14,16 @@ export class Task {
 
   @Prop({
     required: true,
-    enum: ['pending', 'in progress', 'completed', 'backlog'],
-    default: 'pending',
+    enum: Object.values(TaskStatus),
+    default: TaskStatus.PENDING,
   })
   status: string;
 
-  @Prop({ required: true, enum: ['low', 'medium', 'high'], default: 'medium' })
+  @Prop({
+    required: true,
+    enum: Object.values(TaskPriority),
+    default: TaskPriority.MEDIUM,
+  })
   priority: string;
 
   @Prop({ required: true })
