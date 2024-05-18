@@ -27,7 +27,7 @@ export class Task {
   priority: string;
 
   @Prop({ required: true })
-  due_date: Date;
+  dueDate: Date;
 
   @Prop({ required: true, user: mongooseSchema.Types.ObjectId })
   user: mongooseSchema.Types.ObjectId;

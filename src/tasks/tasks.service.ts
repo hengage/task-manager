@@ -4,15 +4,18 @@ import { ITaskDocument, Task } from './schema/task.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { TaskStatus } from 'src/constants';
+import { AgendaService } from 'src/agenda/agenda.service';
 
 @Injectable()
 export class TasksService {
   constructor(
     @InjectModel(Task.name) private taskModel: Model<ITaskDocument>,
+    // private readonly agendaService: AgendaService,
   ) {}
 
   async create(createTaskDto: CreateTaskDto) {
     const task = new this.taskModel(createTaskDto);
+    // this.agendaService.scheduleTaskOverdue(task.dueDate, task._id.toString());
     return await task.save();
   }
 
