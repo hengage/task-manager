@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit, forwardRef } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Agenda } from 'agenda';
 import { TasksService } from 'src/tasks/tasks.service';
@@ -9,10 +9,9 @@ export class AgendaService implements OnModuleInit {
 
   constructor(
     private readonly configService: ConfigService,
+    @Inject(forwardRef(() => TasksService))
     private readonly taskService: TasksService,
-  ) {
-    // this.setupAgenda();
-  }
+  ) {}
 
   onModuleInit() {
     this.setupAgenda();

@@ -21,7 +21,7 @@ export class CreateTaskDto {
 
   @IsNotEmpty({ message: 'due date is required' })
   @IsDateString({}, { message: 'due date must be in valid date format' })
-  due_date: Date;
+  dueDate: Date;
 }
 
 export class UpdateTaskDto extends PartialType(CreateTaskDto) {}

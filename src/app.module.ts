@@ -7,7 +7,7 @@ import { UsersModule, UsersService } from './users';
 import { AuthModule, AuthService } from './auth';
 import { JwtModule } from '@nestjs/jwt';
 import { TasksModule, TasksService } from './tasks';
-import { AgendaModule, AgendaService } from './agenda';
+import { AgendaModule } from './agenda';
 
 @Module({
   imports: [
@@ -20,12 +20,6 @@ import { AgendaModule, AgendaService } from './agenda';
     AgendaModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    UsersService,
-    AuthService,
-    // AgendaService,
-    TasksService,
-  ],
+  providers: [AppService, UsersService, AuthService, TasksService],
 })
 export class AppModule {}

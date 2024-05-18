@@ -1,4 +1,4 @@
-import { Global, Module, forwardRef } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { AgendaService } from './agenda.service';
 import { TasksModule } from 'src/tasks/tasks.module';
 

@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { CreateTaskDto, UpdateTaskDto } from './dto/task.dto';
 import { ITaskDocument, Task } from './schema/task.schema';
 import { Model } from 'mongoose';
@@ -10,12 +16,13 @@ import { AgendaService } from 'src/agenda/agenda.service';
 export class TasksService {
   constructor(
     @InjectModel(Task.name) private taskModel: Model<ITaskDocument>,
-    // private readonly agendaService: AgendaService,
+    @Inject(forwardRef(() => AgendaService))
+    private readonly agendaService: AgendaService,
   ) {}
 
   async create(createTaskDto: CreateTaskDto) {
     const task = new this.taskModel(createTaskDto);
-    // this.agendaService.scheduleTaskOverdue(task.dueDate, task._id.toString());
+    this.agendaService.scheduleTaskOverdue(task.dueDate, task._id.toString());
     return await task.save();
   }
 
