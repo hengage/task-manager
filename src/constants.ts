@@ -1,3 +1,6 @@
+/**
+ * The `TaskStatus` enum represents the possible statuses of a task.
+ */
 export enum TaskStatus {
   PENDING = 'pending',
   IN_PROGRESS = 'in progress',
@@ -5,6 +8,9 @@ export enum TaskStatus {
   OVERDUE = 'overdue',
 }
 
+/**
+ * The `TaskPriority` enum represents the possible priority levels of a task.
+ */
 export enum TaskPriority {
   LOW = 'low',
   MEDIUM = 'medium',

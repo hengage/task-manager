@@ -1,14 +1,12 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users';
 import * as bcrypt from 'bcrypt';
 import { LoginDTO } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 
+/**
+ * Service responsible for authentication-related operations.
+ */
 @Injectable()
 export class AuthService {
   constructor(
@@ -16,6 +14,12 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  /**
+   * Authenticates a user using their email and password.
+   * @param loginDTO - Data transfer object containing login credentials.
+   * @returns An object containing user details and an access token if authentication is successful.
+   * @throws HttpException if login credentials are invalid.
+   */
   async login(loginDTO: LoginDTO) {
     const { email, password } = loginDTO;
 

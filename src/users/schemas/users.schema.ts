@@ -3,6 +3,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { HydratedDocument } from 'mongoose';
 
+/**
+ * The `User` class represents a user schema for MongoDB using Mongoose.
+ */
 @Schema({ timestamps: true })
 export class User {
   @Prop({ required: true })
@@ -25,6 +28,7 @@ export type UserDocument = HydratedDocument<User>;
 UserSchema.pre('save', async function (next) {
   const user = this as UserDocument;
 
+  // If the password is not modified, proceed to the next middleware
   if (!user.isModified('password')) return next();
 
   const salt = await bcrypt.genSalt(10);

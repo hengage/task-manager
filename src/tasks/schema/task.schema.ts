@@ -4,6 +4,9 @@ import { TaskPriority, TaskStatus } from 'src/constants';
 
 export type ITaskDocument = Task & Document;
 
+/**
+ * The `Task` class represents a task schema for MongoDB using Mongoose.
+ */
 @Schema({ timestamps: true })
 export class Task {
   @Prop({ required: true })

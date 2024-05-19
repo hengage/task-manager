@@ -20,12 +20,22 @@ export class TasksService {
     private readonly agendaService: AgendaService,
   ) {}
 
+  /**
+   * Creates a new task and schedules it for overdue checking.
+   * @param createTaskDto - Data transfer object for creating a task.
+   * @returns The created task document.
+   */
   async create(createTaskDto: CreateTaskDto) {
     const task = new this.taskModel(createTaskDto);
     this.agendaService.scheduleTaskOverdue(task.dueDate, task._id.toString());
     return await task.save();
   }
 
+  /**
+   * Retrieves all tasks for a given user.
+   * @param userId - The ID of the user.
+   * @returns A promise that resolves to an array of task documents.
+   */
   findAllForUser(userId: string): Promise<ITaskDocument[]> {
     return this.taskModel
       .find({ user: userId })
@@ -33,10 +43,22 @@ export class TasksService {
       .lean();
   }
 
+  /**
+   * Finds a task by its ID.
+   * @param id - The ID of the task.
+   * @returns A promise that resolves to the task document.
+   */
+  asy;
   async findOne(id: string) {
     return await this.taskModel.findById(id);
   }
 
+  /**
+   * Updates a task by its ID.
+   * @param id - The ID of the task.
+   * @param updateTaskDto - Data transfer object for updating a task.
+   * @returns A promise that resolves to the updated task document.
+   */
   async update(id: string, updateTaskDto: UpdateTaskDto) {
     // const select = Object.keys(updateTaskDto);
 
@@ -46,11 +68,13 @@ export class TasksService {
       .exec();
   }
 
+  /**
+   * Removes a task by its ID and the user ID.
+   * Ensures that only the owner can delete the task.
+   * @param id - The ID of the task.
+   * @param userId - The ID of the user.
+   */
   async remove(id: string, userId: string) {
-    /**
-     * Finds taks by user id and task id to make sure a task is only
-     *  deleted by it's owner/creator.
-     */
     const task = await this.taskModel
       .findOneAndDelete({ _id: id, user: userId })
       .exec();
@@ -63,6 +87,10 @@ export class TasksService {
     return task;
   }
 
+  /**
+   * Marks a task as overdue if it is not completed by the due date.
+   * @param id - The ID of the task.
+   */
   async taskOverDue(id: string) {
     const task = await this.taskModel.findById(id).select('status');
     console.log({ task });

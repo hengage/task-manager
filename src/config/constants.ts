@@ -1,4 +1,4 @@
-export const corsPptions = {
+export const corsOptions = {
   origin: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   preflightContinue: false,
