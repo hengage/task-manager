@@ -21,12 +21,12 @@ $ npm run start:prod
 ```
 
 ## Features
-- User Authentication: Secure user authentication with JWT.
-- Task Management: Create, read, update, and delete tasks.
-- Task Scheduling: Automatically mark tasks as overdue if they are not completed by their due dates using Agenda
-- Task Status & Priority: Manage task statuses (pending, in progress, completed, overdue) and priorities (low, medium, high).
-- Database Integration: MongoDB integration using Mongoose, for persistent storage
-- Environment Configuration: Use of @nestjs/config for environment variables.
+- **User Authentication**: Secure user authentication with JWT.
+- **Task Management**: Create, read, update, and delete tasks.
+- **Task Scheduling**: Automatically mark tasks as overdue if they are not completed by their due dates using Agenda
+- **Task Status & Priority**: Manage task statuses (pending, in progress, completed, overdue) and priorities (low, medium, high).
+- **Database Integration**: MongoDB integration using Mongoose, for persistent storage
+- **Environment Configuration**: Use of @nestjs/config for environment variables.
 
 ## Design pattern/Architecture
 This project follows a feature-based architecture, where each feature encapsulates its own logic, data access, and business modules. This design promotes high cohesion and low coupling, leading to a more modular, maintainable, and scalable codebase.
