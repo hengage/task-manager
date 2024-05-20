@@ -8,6 +8,7 @@ import { AuthModule, AuthService } from './auth';
 import { JwtModule } from '@nestjs/jwt';
 import { TasksModule, TasksService } from './tasks';
 import { AgendaModule } from './agenda';
+import { SocketModule } from './socket/socket.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AgendaModule } from './agenda';
     JwtModule,
     TasksModule,
     AgendaModule,
+    SocketModule,
   ],
   controllers: [AppController],
   providers: [AppService, UsersService, AuthService, TasksService],
