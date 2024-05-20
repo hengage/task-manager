@@ -44,11 +44,18 @@ export class TasksService {
   }
 
   /**
+   * Retrieves all tasks
+   * @returns A promise that resolves to an array of task documents.
+   */
+  findAll(): Promise<ITaskDocument[]> {
+    return this.taskModel.find().select('-__v').lean();
+  }
+
+  /**
    * Finds a task by its ID.
    * @param id - The ID of the task.
    * @returns A promise that resolves to the task document.
    */
-  asy;
   async findOne(id: string) {
     const task = await this.taskModel.findById(id).select('-__v').lean();
     if (!task) {

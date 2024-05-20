@@ -6,9 +6,11 @@ import {
   ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { TasksService } from 'src/tasks';
 
 @WebSocketGateway({ cors: { origin: '*' } })
 export class SocketGateway {
+  constructor(private tasksService: TasksService) {}
   @WebSocketServer()
   server: Server;
 
@@ -21,12 +23,12 @@ export class SocketGateway {
   }
 
   @SubscribeMessage('fetch-tasks')
-  fetchTasks(
+  async fetchTasks(
     @MessageBody() message: string,
     @ConnectedSocket() client: Socket,
-  ): void {
-    console.log({ message, client });
-    this.emit('fetched-tasks', 'tasks');
+  ): Promise<void> {
+    const tasks = await this.tasksService.findAll();
+    this.emit('fetched-tasks', tasks);
   }
 
   emit(eventName: string, data: any): void {
