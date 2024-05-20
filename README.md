@@ -26,6 +26,7 @@ $ npm run start:prod
 - **Task Scheduling**: Automatically mark tasks as overdue if they are not completed by their due dates using Agenda
 - **Task Status & Priority**: Manage task statuses (pending, in progress, completed, overdue) and priorities (low, medium, high).
 - **Database Integration**: MongoDB integration using Mongoose, for persistent storage
+- Websocket(sicket.io)
 - **Environment Configuration**: Use of @nestjs/config for environment variables.
 
 ## Design pattern/Architecture
