@@ -1,10 +1,12 @@
 import { PartialType } from '@nestjs/mapped-types';
 import {
   IsDateString,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
 } from 'class-validator';
+import { TaskPriority } from 'src/constants';
 
 export class CreateTaskDto {
   @IsNotEmpty({ message: 'title is required' })
@@ -17,6 +19,9 @@ export class CreateTaskDto {
 
   @IsOptional()
   @IsString({ message: 'priority must be a string' })
+  @IsEnum(TaskPriority, {
+    message: 'Priority must be one of: "low", "medium", "high"',
+  })
   priority: string;
 
   @IsNotEmpty({ message: 'due date is required' })
