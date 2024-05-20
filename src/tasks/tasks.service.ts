@@ -50,7 +50,11 @@ export class TasksService {
    */
   asy;
   async findOne(id: string) {
-    return await this.taskModel.findById(id);
+    const task = await this.taskModel.findById(id).select('-__v').lean();
+    if (!task) {
+      throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+    }
+    return task;
   }
 
   /**
